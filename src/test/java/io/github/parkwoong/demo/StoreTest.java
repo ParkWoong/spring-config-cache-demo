@@ -1,6 +1,7 @@
 package io.github.parkwoong.demo;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
 
 import io.github.parkwoong.demo.config.Store;
 
@@ -11,23 +12,18 @@ import org.springframework.jdbc.core.JdbcTemplate;
 
 @SpringBootTest
 class StoreTest {
-    @Autowired Store store;
-    @Autowired JdbcTemplate jdbc;
+    @Autowired private Store store;
+    @Autowired private JdbcTemplate jdbc;
 
     @Test
-    void originalDatabaseLoadingAndManualRefresh() {
-        assertTrue(store.getTokenKeyList().isEmpty());
-        assertEquals("N", store.getOptionMap().get("sample-client").get("sample-key"));
-        assertEquals(
-                "http://localhost:9090",
-                store.getClientBackendMap().get("sample-client").get("backend_api"));
-        jdbc.update(
-                "update client_backend_api set backend_api=? where client_id=?",
-                "http://localhost:9091",
-                "sample-client");
-        store.refreshClientBackendMap();
-        assertEquals(
-                "http://localhost:9091",
-                store.getClientBackendMap().get("sample-client").get("backend_api"));
+    void loadsReadsAndRefreshesCache() {
+        assertEquals("light", store.getCache().get("theme").get("setting_value"));
+        assertNull(store.getCache().get("missing"));
+
+        jdbc.update("update app_settings set setting_value=? where setting_key=?", "dark", "theme");
+        assertEquals("light", store.getCache().get("theme").get("setting_value"));
+
+        store.refreshCache();
+        assertEquals("dark", store.getCache().get("theme").get("setting_value"));
     }
 }

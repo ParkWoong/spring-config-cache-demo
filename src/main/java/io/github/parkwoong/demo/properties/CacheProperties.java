@@ -7,10 +7,8 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 
 @Getter
 @Setter
-@ConfigurationProperties("db.bypass-option.column")
-public class BypassOptionProperties {
+@ConfigurationProperties("cache.column")
+public class CacheProperties {
 
-    private String clientId;
-    private String tokenKeyId;
-    private String mode;
+    private String key;
 }

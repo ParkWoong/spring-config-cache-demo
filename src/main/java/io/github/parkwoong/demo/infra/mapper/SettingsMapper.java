@@ -7,8 +7,8 @@ import java.util.List;
 import java.util.Map;
 
 @Mapper
-public interface TokenKeyMapper {
+public interface SettingsMapper {
 
-    @Select("select * from token_key")
-    List<Map<String, String>> selectAllTokenKey();
+    @Select("select * from app_settings")
+    List<Map<String, String>> selectAllSettings();
 }
