@@ -8,7 +8,7 @@
         <relativePath/>
     </parent>
     <groupId>io.github.parkwoong</groupId>
-    <artifactId>spring-config-cache-demo</artifactId>
+    <artifactId>spring-config-cache-test</artifactId>
     <version>1.0.0</version>
     <properties>
         <java.version>1.8</java.version>
